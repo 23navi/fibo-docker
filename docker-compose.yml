@@ -5,7 +5,7 @@ services:
   postgres-server:
     image: "postgres:latest"
     environment:
-      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_PASSWORD=postgres_password 
   redis-server:
     image: "redis:latest"
   
@@ -15,7 +15,7 @@ services:
       context: ./server
     volumes:
       - /app/node_modules
-      - ./server:app
+      - ./server:/app
     environment:
       - REDIS_HOST=redis-server
       - REDIS_PORT=6379
@@ -25,4 +25,22 @@ services:
       - PGPASSWORD=postgres_password
       - PGPORT=5432
 
+  client-server:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+
+  worker-server:
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./worker
+    volumes:
+      - /app/node_modules
+      - ./worker:/app
+    environment:
+      - REDIS_HOST=redis-server
+      - REDIS_PORT=6379
 
