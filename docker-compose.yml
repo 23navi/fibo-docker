@@ -8,6 +8,14 @@ services:
       - POSTGRES_PASSWORD=postgres_password 
   redis-server:
     image: "redis:latest"
+
+  nginx-server:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "80:80"
   
   main-server:
     build: 
