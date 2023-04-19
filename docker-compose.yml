@@ -16,6 +16,9 @@ services:
       context: ./nginx
     ports:
       - "80:80"
+    depends_on:
+      - main-server
+      - client-server
   
   main-server:
     build: 
@@ -32,6 +35,8 @@ services:
       - PGDATABASE=postgres
       - PGPASSWORD=postgres_password
       - PGPORT=5432
+    ports:
+      - "5001:5000"
 
   client-server:
     build:
@@ -40,6 +45,8 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
+    ports:
+      - "3000:3000"
 
   worker-server:
     build: 
